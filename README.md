@@ -25,30 +25,58 @@ Serão necesários a criação de 3 telas (Login / Cadastro, Listagem de Albuns,
 ### Login / Cadastro
 
 Nesta tela, serão apresenados 2 campos de texto, um para o e-mail dos usuários, outro para a senha, sendo que ambos deverão possuir validação de Texto no formato E-mail e 
-preenchimento de senha de acordo com algumas regras de sua escolha (Minimo 8 caracteres, deve possuír caracteres especiais, etc...), respectivamente e um botão de confirmação.
+preenchimento de senha de acordo com algumas regras de sua escolha, respectivamente e um botão de confirmação.\ 
+(Minimo 8 caracteres, deve possuír caracteres especiais, etc...)
 
 Como o foco deste teste não está nos dados do back-end, para se realizar o login / cadastro, deverá ser utilizado a API mencionada acima, com o Resource 
-[/users?email=XXX](https://jsonplaceholder.typicode.com/users?email=Sincere@april.biz) passando apenas o e-mail para se obter os dados fake de usuário e 
+*/users?email=XXX* passando apenas o e-mail para se obter os dados fake de usuário e 
 armazená-los no aplicativo. Sugerimos o uso do SQLite, com o package acima, mas fica a sua escolha.
 
 ### Listagem de Albuns (Master)
+
+Uma vez "logado" e com os dados do usuário em mãos, o próximo passo é a apresentação de todos os Albums de fotos que o usuário possúi em seu nome.
+
+Para isso, desejamos a apresentação de uma tela de Listagem, estilo Master de Master/detail, com o Widget CardList, onde cada Card apresentará o nome do Album e uma opção
+de exclusão caso o usuário assim deseje. 
+ 
+* Não é necessário a chamada de um DELETE desta funcionalidade visto que a API é um sistema fake, porém a retirada da listagem é obrigatória.
+
+* Cada Card no CardList deverá ser um link para a próxima tela.
+
 ### Listagem de Fotos (Master)
-### Compra de Fotos (Detail)
 
-Ao consultar a API de câmbio deverá ser informado a data atual.
+Ao ser selecionado um dos albums, desejamos a apresentação de uma tela de Listagem, estilo Master de Master/detail, com o Widget CardList, onde cada Card apresentará o 
+título da Foto, um pequeno Thumbnail da Foto, o Preço desta foto (Valor fictício, porém no formato *R$ 9999,99*) e uma opção de exclusão caso o usuário assim deseje. 
 
-A API a ser consultada será a: https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='11-01-2021'&$top=100&$skip=0&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao
+* Não é necessário a chamada de um DELETE desta funcionalidade visto que a API é um sistema fake, porém a retirada da listagem é obrigatória.
 
-Nela, deverá ser informada apenas a data de cotação atual. (Parâmetro `@dataCotacao`)
+* Cada Card no CardList deverá ser um link para a próxima tela.
 
-O retorno da consulta será o seguinte: ![Response Body](https://user-images.githubusercontent.com/1773788/141181294-28f0d93e-2a74-416f-91a2-0ae9875def09.png)
+### Venda de Fotos (Detail)
 
-As 3 informações principais deverão ser armazenadas no bano de dados de sua escolha (Schema fica a sua escolha também)
+Nesta tela, desejamos que sejam apresentados os dados da Foto selecionada, assim como a possibilidade de serem alterados os dados, e a opção de venda de foto, onde 
+apenas desejamos que seja gerada uma notificação (Podendo ser uma tela de transição animada) de venda efetuada com sucesso, apresentando a data da venda e posteriomente a 
+opção de Download da imagem escolhida para o aplicativo.
 
+* Não é necessário a chamada de um PUT/PATCH desta funcionalidade visto que a API é um sistema fake, porém a alteração dos dados deverá estar refletida no local 
+de armazenamento do aplicativo escolhido acima (SQLite, por exemplo).
+* É obrigatório ao clicar na opção de venda da foto que seja pedido a permissão de armazenamento de arquivos no aplicativo.
 
 ## Endpoints
 
-* Consultar Câmbio Atual: ```GET /cambio/atual``` - Ultima taxa gerada e processada por nós da plataforma de câmbio. 
+Busca de Usuário por e-mail: [```GET /users?email=<E-mail fake presente na API>```](https://jsonplaceholder.typicode.com/users?email=Sincere@april.biz) \
+Busca de Albums por usuário: [```GET /users/<ID>/albums```](https://jsonplaceholder.typicode.com/users/1/albums) \
+Busca de Fotos por Album: [```GET /albums/<ID>/photos```](https://jsonplaceholder.typicode.com/albums/1/photos) 
+
+* É obrigatório o uso de todos os endpoints acima no app, pois iremos aplica um teste de Rastreamento do sistema para averiguar que todos estejam sendo chamados com os 
+dados dinâmicos, de acordo com os e-mails/ids retornados da API.
+
+## Entrega
+
+Um ponto importante para este teste é que gostariamos de avaliá-lo em algum aparelho fisíco, portanto é necessário que seja realizado a geração de um pacote 
+instalável (*Apk ou *App) presente junto ao código para que possamos instalá-lo e utilizado nos nossos mobiles.
+
+* Não é necessário o registro do aplicativo em nenhum serviço de distribuição digital de aplicativos, como Google Play ou App Store.
 
 Caso precise de ajuda, entre e contato conosco:
 * [Yury](mailto:yury@expensemobi.com.br)
